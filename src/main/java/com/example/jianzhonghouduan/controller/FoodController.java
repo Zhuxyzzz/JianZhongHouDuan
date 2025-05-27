@@ -122,10 +122,22 @@ public class FoodController {
                 Map<String, Object> result = new HashMap<>();
                 result.put("code", 200);
                 result.put("message", "success");
-                result.put("data", Map.of(
-                        "foodId", foodData.get("food_id"),
-                        "foodName", foodData.get("food_name")
-                ));
+//                result.put("data", Map.of(
+//                        "foodId", foodData.get("food_id"),
+//                        "foodName", foodData.get("food_name")
+//                ));
+
+
+
+// 使用 HashMap 构建 Map
+                Map<String, Object> data = new HashMap<>();
+                data.put("foodId", foodData.get("food_id"));
+                data.put("foodName", foodData.get("food_name"));
+
+                result.put("data", data);
+
+
+
                 return ResponseEntity.ok(result);
             }
 
@@ -181,17 +193,33 @@ public class FoodController {
 
                 result.put("code", 200);
                 result.put("message", "success");
-                result.put("data", Map.of(
-                        "foodId", foodData.get("food_id") != null ? foodData.get("food_id") : "",
-                        "foodName", foodData.get("food_name") != null ? foodData.get("food_name") : "",
-                        "category", foodData.get("category") != null ? foodData.get("category") : "",
-                        "calories", foodData.get("calories") != null ? foodData.get("calories") : 0,
-                        "protein", foodData.get("protein") != null ? foodData.get("protein") : 0,
-                        "fat", foodData.get("fat") != null ? foodData.get("fat") : 0,
-                        "unit", foodData.get("unit") != null ? foodData.get("unit") : "",
-                        "image", foodData.get("image") != null ? foodData.get("image") : "",
-                        "details", foodData.get("details") != null ? foodData.get("details") : ""
-                ));
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("foodId", foodData.get("food_id"));
+                data.put("foodName", foodData.get("food_name"));
+                data.put("category", foodData.get("category"));
+                data.put("calories", foodData.get("calories"));
+                data.put("protein", foodData.get("protein"));
+                data.put("fat", foodData.get("fat"));
+                data.put("unit", foodData.get("unit"));
+                data.put("image", foodData.get("image"));
+                data.put("details", foodData.get("details"));
+
+                result.put("data", data);
+
+
+
+//                result.put("data", Map.of(
+//                        "foodId", foodData.get("food_id") != null ? foodData.get("food_id") : "",
+//                        "foodName", foodData.get("food_name") != null ? foodData.get("food_name") : "",
+//                        "category", foodData.get("category") != null ? foodData.get("category") : "",
+//                        "calories", foodData.get("calories") != null ? foodData.get("calories") : 0,
+//                        "protein", foodData.get("protein") != null ? foodData.get("protein") : 0,
+//                        "fat", foodData.get("fat") != null ? foodData.get("fat") : 0,
+//                        "unit", foodData.get("unit") != null ? foodData.get("unit") : "",
+//                        "image", foodData.get("image") != null ? foodData.get("image") : "",
+//                        "details", foodData.get("details") != null ? foodData.get("details") : ""
+//                ));
                 return ResponseEntity.ok(result);
             }
 

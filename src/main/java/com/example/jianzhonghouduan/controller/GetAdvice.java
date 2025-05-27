@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Api(tags = "获取饮食建议")
 @RestController
@@ -54,6 +51,20 @@ public class GetAdvice {
             } else {
                 //▼ 提取并格式化结果
                 System.out.println("results:" + results);
+                List<Map<String, Object>> results1 = new ArrayList<>();
+                for (Map<String, Object> advice : results) {
+                    Map<String, Object> initializedAdvice = new HashMap<>();
+                    initializedAdvice.put("advice_id", advice.get("advice_id"));
+                    initializedAdvice.put("people_id", advice.get("people_id"));
+                    initializedAdvice.put("user_id", advice.get("user_id"));
+                    initializedAdvice.put("advice_type", advice.get("advice_type"));
+                    initializedAdvice.put("advice_content", advice.get("advice_content"));
+                    initializedAdvice.put("date", advice.get("date"));
+
+                    // 将初始化后的建议存储到 results1 中
+                    results1.add(initializedAdvice);
+                }
+                System.out.println("results1:" + results1);
                 Map<String, Object> advicelist = results.get(0);
                 System.out.println("advicelist:" + advicelist);
                 Map<String, Object> result = new HashMap<>();
@@ -67,8 +78,24 @@ public class GetAdvice {
 //                        "advice_content", advicelist.get("advice_content") != null ? advicelist.get("advice_content") : 0,
 //                        "date", advicelist.get("date") != null ? advicelist.get("date") : 0
 //                ));
-                result.put("data", List.of(results));
+//                result.put("data", List.of(results));
+//                return ResponseEntity.ok(result);
+
+                // 使用 HashMap 构建 data 部分
+                Map<String, Object> data = new HashMap<>();
+                data.put("advice_id", advicelist.get("advice_id") != null ? advicelist.get("advice_id") : "");
+                data.put("people_id", advicelist.get("people_id") != null ? advicelist.get("people_id") : "");
+                data.put("advice_type", advicelist.get("advice_type") != null ? advicelist.get("advice_type") : "");
+                data.put("advice_content", advicelist.get("advice_content") != null ? advicelist.get("advice_content") : 0);
+                data.put("date", advicelist.get("date") != null ? advicelist.get("date") : 0);
+
+                // 将构建的数据放入结果中
+//                result.put("data", data);
+                result.put("data", results1);
                 return ResponseEntity.ok(result);
+
+
+
             }
 
         } catch (EmptyResultDataAccessException e) {

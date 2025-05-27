@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,11 @@ public class PlanFoodController {
             //--- 参数基础验证 ---------
             // 必填字段检查
             if (foodIdObj == null || sumObj == null || mealTypeObj == null) {
-                return Map.of("code", 400, "message", "缺乏必要参数");
+                Map<String, Object> response = new HashMap<>();
+                response.put("code", 400);
+                response.put("message", "缺乏必要参数");
+//                return Map.of("code", 400, "message", "缺乏必要参数");
+                return response;
             }
 //            int foodId = Integer.parseInt(params.get("food_id").toString());
 //            int sum = Integer.parseInt(params.get("sum").toString());
@@ -97,7 +102,11 @@ public class PlanFoodController {
             System.out.println("转换后日期：" + date.toString());
             // 强制参数验证
             if (sum <= 0 ) {
-                return Map.of("code", 400, "message", "参数越界");
+                Map<String, Object> response = new HashMap<>();
+                response.put("code", 400);
+                response.put("message", "参数越界");
+                return response;
+//                return Map.of("code", 400, "message", "参数越界");
             }
 
             // 日期格式验证
@@ -124,20 +133,43 @@ public class PlanFoodController {
 
             // 结果处理（与原逻辑保持风格统一）
             if (result > 0) {
-                return Map.of(
-                        "code", 200,
-                        "message", "记录添加成功",
-                        "data", getLatestRecord()
-                );
+                Map<String, Object> response = new HashMap<>();
+                response.put("code", 200);
+                response.put("message", "记录添加成功");
+                response.put("data",getLatestRecord());
+                return response;
+
+
+//                return Map.of(
+//                        "code", 200,
+//                        "message", "记录添加成功",
+//                        "data", getLatestRecord()
+//                );
             }
-            return Map.of("code", 500, "message", "数据库操作失败");
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 500);
+            response.put("message", "数据库操作失败");
+            return response;
+//            return Map.of("code", 500, "message", "数据库操作失败");
 
         } catch (NullPointerException e) {
-            return Map.of("code", 400, "message", "必要参数缺失");
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 400);
+            response.put("message", "必要参数缺失");
+            return response;
+//            return Map.of("code", 400, "message", "必要参数缺失");
         } catch (NumberFormatException e) {
-            return Map.of("code", 400, "message", "数字类型参数格式错误");
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 400);
+            response.put("message", "数字类型参数格式错误");
+            return response;
+//            return Map.of("code", 400, "message", "数字类型参数格式错误");
         } catch (DataIntegrityViolationException e) {
-            return Map.of("code", 400, "message", "食物不存在或外键约束失败");
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 400);
+            response.put("message", "食物不存在或外键约束失败");
+            return response;
+//            return Map.of("code", 400, "message", "食物不存在或外键约束失败");
         }
     }
 
